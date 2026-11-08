@@ -78,9 +78,9 @@ OTHER OPTIONS (TOP BAR AND SIDE HEADERS)
 FILES
 -----
   speedrunDocs.exe     The whole program.
-  SpeedrunDocs.dll     A spare copy of the LiveSplit component. Nothing uses it.
+  SpeedrunDocs.dll     This goes into Livesplits components folder.
 
-LiveSplit uses its own copy at LiveSplit\Program\Components\SideDocsLink.dll.
+LiveSplit uses its own copy at LiveSplit\Program\Components\SpeedrunDocs.dll
 That file must keep that name. If you ever need to restore it from the spare,
 close LiveSplit first and rename the copy back to SideDocsLink.dll.
 
