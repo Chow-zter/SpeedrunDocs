@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>speedrunDocs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a timer-window hero (the program itself, drawn in HTML), then a single reading column of
+   reference sections, each opened by a split-row header like a LiveSplit segment. */
+:root {
+  --bg: #0F1217; --panel: #171B22; --field: #20252E; --line: #2B313C;
+  --fg: #E6E9EF; --muted: #98A0AE; --accent: #6EA8FE; --ahead: #6FD08C; --gold: #F2C14E;
+  --shot-bg: #14161B; --shot-panel: #1D2027; --shot-page: #F4F2EE; --shot-ink: #2A2D34;
+  --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F3F4F7; --panel: #FFFFFF; --field: #E9ECF1; --line: #D5DAE2;
+    --fg: #161A21; --muted: #5B6372; --accent: #2F6BD3; --ahead: #1F8A45; --gold: #A8740A;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #F3F4F7; --panel: #FFFFFF; --field: #E9ECF1; --line: #D5DAE2;
+  --fg: #161A21; --muted: #5B6372; --accent: #2F6BD3; --ahead: #1F8A45; --gold: #A8740A;
+  color-scheme: light;
+}
+
+body { background: var(--bg); color: var(--fg); font: 16px/1.6 var(--body); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.read { max-width: 760px; margin: 0 auto; display: grid; gap: 56px; }
+
+/* Hero */
+.hero { display: grid; gap: 28px; margin-bottom: 64px; }
+.eyebrow { font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 clamp(56px, 11vw, 112px)/.9 var(--display); letter-spacing: -.01em; margin: 10px 0 0; text-wrap: balance; }
+h1 .tick { color: var(--accent); }
+.lede { font-size: clamp(18px, 2.2vw, 21px); max-width: 640px; color: var(--fg); margin: 0; text-wrap: pretty; }
+.lede span { color: var(--muted); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 13px var(--mono); color: var(--muted); }
+.facts b { color: var(--fg); font-weight: 600; }
+
+/* The window, drawn */
+.shot { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--shot-bg); color: #E8EAEE;
+  box-shadow: 0 30px 80px -40px rgba(0,0,0,.6); font: 12px/1.3 "Segoe UI", var(--body); }
+.shot .bar { display: flex; align-items: center; gap: 2px; padding: 6px 10px; border-bottom: 1px solid #343945; }
+.shot .bar span { padding: 3px 9px; border-radius: 4px; }
+.shot .bar span.on { background: #343945; }
+.shot .bar .prof { margin-left: auto; display: flex; gap: 8px; align-items: center; color: #9AA1AE; }
+.shot .bar .box { border: 1px solid #343945; background: #272B34; color: #E8EAEE; padding: 3px 10px; min-width: 120px; display: flex; justify-content: space-between; }
+.shot .body { display: grid; grid-template-columns: 210px minmax(0,1fr) minmax(0,1fr); min-height: 340px; }
+.ls { background: linear-gradient(180deg, #1a1530, #0e0f16); border-right: 1px solid #343945; padding: 10px 8px; display: flex; flex-direction: column; gap: 2px; }
+.ls .game { font: 600 14px "Segoe UI", sans-serif; padding: 0 4px; }
+.ls .cat { font-size: 10px; color: #b9a8ff; padding: 0 4px 6px; }
+.ls .row { display: flex; justify-content: space-between; padding: 2px 4px; font-variant-numeric: tabular-nums; border-radius: 3px; }
+.ls .row.now { background: rgba(181,86,130,.55); }
+.ls .row .t { font-family: var(--mono); font-size: 11px; }
+.ls .row .g { color: #6FD08C; } .ls .row .gold { color: #F2C14E; }
+.ls .timer { margin-top: auto; text-align: right; font: 600 34px/1 var(--mono); color: #6FD08C; padding: 8px 4px 0; letter-spacing: -.02em; }
+.ls .timer small { font-size: 18px; }
+.pane { display: flex; flex-direction: column; min-width: 0; border-right: 1px solid #343945; }
+.pane:last-child { border-right: 0; }
+.pane .head { display: flex; align-items: center; gap: 6px; padding: 7px 10px; background: #1D2027; }
+.pane .head b { font: 600 13px "Segoe UI", sans-serif; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip { border: 1px solid #343945; border-radius: 4px; padding: 1px 6px; color: #9AA1AE; font-size: 11px; white-space: nowrap; }
+.page { margin: 12px; background: var(--shot-page); color: var(--shot-ink); border-radius: 2px; padding: 14px 16px; flex: 1; font: 12px/1.45 Georgia, serif; }
+.page h4 { margin: 0 0 6px; font: 700 13px "Segoe UI", sans-serif; }
+.page p { margin: 0 0 6px; }
+.page .hl { background: #ffe9a8; }
+.notes { flex: 1; padding: 14px 16px; background: #1D2027; }
+.notes .nh { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #343945; padding-bottom: 6px; margin-bottom: 8px; }
+.notes .nh b { color: #6EA8FE; font: 600 17px "Segoe UI", sans-serif; }
+.notes .nh span { color: #9AA1AE; font-size: 11px; }
+.notes ul { margin: 0; padding-left: 16px; display: grid; gap: 3px; }
+.notes .next { margin-top: 12px; padding-top: 6px; border-top: 1px solid #343945; color: #9AA1AE; font-size: 11px; }
+.shot .status { display: flex; gap: 16px; padding: 5px 10px; border-top: 1px solid #343945; color: #9AA1AE; font-size: 11px; }
+.shot .status .dot { color: #6FD08C; }
+.shot .status .r { margin-left: auto; }
+.caption { font: 13px var(--mono); color: var(--muted); margin-top: 10px; }
+
+/* Sections */
+section { display: grid; gap: 16px; }
+.seg { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.seg h2 { font: 700 34px/1 var(--display); margin: 0; letter-spacing: .005em; text-wrap: balance; }
+.seg .t { margin-left: auto; font: 600 14px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.seg .t.gold { color: var(--gold); }
+p { margin: 0; }
+.muted { color: var(--muted); }
+h3 { font: 600 22px/1.15 var(--display); margin: 8px 0 0; letter-spacing: .01em; }
+
+ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 10px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 12px; align-items: start; }
+ol.steps li::before { content: counter(s); font: 600 14px/28px var(--mono); text-align: center; border: 1px solid var(--line); border-radius: 6px; color: var(--accent); background: var(--panel); }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.card b { font-weight: 600; }
+
+kbd { font: 600 13px var(--mono); background: var(--field); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 7px; white-space: nowrap; color: var(--fg); }
+.menu { font: 600 14px var(--mono); color: var(--accent); white-space: nowrap; }
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 460px; font-size: 15px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td:first-child { white-space: nowrap; }
+code { font: 14px var(--mono); background: var(--field); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+
+.example { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+.example > div { padding: 14px 16px; min-width: 0; }
+.example > div + div { border-left: 1px solid var(--line); }
+.example .lab { font: 600 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.example pre { margin: 0; font: 13.5px/1.55 var(--mono); white-space: pre-wrap; }
+.example .out b { display: block; color: var(--accent); font-size: 18px; margin-bottom: 4px; }
+.example .out ul { margin: 0; padding-left: 18px; }
+
+.trouble { display: grid; gap: 12px; }
+.trouble details { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+.trouble summary { cursor: pointer; font-weight: 600; }
+.trouble summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.trouble ul { margin: 10px 0 2px; padding-left: 20px; display: grid; gap: 6px; }
+
+footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+@media (max-width: 760px) {
+  .shot .body { grid-template-columns: minmax(0,1fr); }
+  .ls { border-right: 0; border-bottom: 1px solid #343945; }
+  .ls .row:nth-child(n+8):not(.now) { display: none; }
+  .pane { border-right: 0; border-bottom: 1px solid #343945; min-height: 200px; }
+  .shot .bar span:nth-child(n+3):not(.prof) { display: none; }
+  .example { grid-template-columns: minmax(0,1fr); }
+  .example > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .shot .status .r { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ls .timer { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .82; } }
+}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">For LiveSplit runners</div>
+      <h1>speedrun<span class="tick">Docs</span></h1>
+    </div>
+    <p class="lede">Your route notes next to LiveSplit, in one window. Two documents side by side, and your splits turn the pages for you. <span>Works with manual splits and auto-splitters. No server, no internet needed for the split link.</span></p>
+    <div class="facts"><span><b>Windows</b> 10 / 11</span><span><b>.NET 8</b> Desktop Runtime</span><span><b>WebView2</b> Runtime</span><span><b>LiveSplit</b> component included</span></div>
+
+    <figure style="margin:0">
+      <div class="shot" role="img" aria-label="The speedrunDocs window: a menu bar, LiveSplit on the left, route notes in the middle and the current split's notes on the right, with a status bar at the bottom.">
+        <div class="bar">
+          <span class="on">File</span><span>Keybinds</span><span>Splits</span><span>Windows</span><span>Help</span>
+          <div class="prof">Profile <div class="box"><span style="padding:0">DQ11 S Any%</span><span style="padding:0">▾</span></div></div>
+        </div>
+        <div class="body">
+          <div class="ls">
+            <div class="game">Dragon Quest XI S</div>
+            <div class="cat">Any%</div>
+            <div class="row"><span>Smogs</span><span class="t g">2:41</span></div>
+            <div class="row"><span>Tricky Devil</span><span class="t gold">20:02</span></div>
+            <div class="row now"><span>Gryphons</span><span class="t">28:45</span></div>
+            <div class="row"><span>Jarvis</span><span class="t">39:25</span></div>
+            <div class="row"><span>Slayer</span><span class="t">57:26</span></div>
+            <div class="row"><span>Coral</span><span class="t">1:11:20</span></div>
+            <div class="row"><span>Jasper 1</span><span class="t">1:17:53</span></div>
+            <div class="row"><span>Rab&amp;Jade</span><span class="t">1:37:30</span></div>
+            <div class="row"><span>Arachtagon</span><span class="t">1:48:07</span></div>
+            <div class="timer">27:13<small>.4</small></div>
+          </div>
+          <div class="pane">
+            <div class="head"><b>Route notes</b><span class="chip">Numpad1</span><span class="chip">‹</span><span class="chip">›</span><span class="chip">⋯</span></div>
+            <div class="page">
+              <h4>Heliodor → Gallopolis</h4>
+              <p>Buy 2× Copper Sword in Heliodor. Skip the inn.</p>
+              <p><span class="hl">Gryphons: Sizz on the left one first</span>, then Whack spam. Keep Erik's HP above 60.</p>
+              <p>After the fight, menu during the cutscene: equip Iron Helmet on the Luminary.</p>
+            </div>
+          </div>
+          <div class="pane">
+            <div class="head"><b>Split notes</b><span class="chip">Numpad2</span><span class="chip">‹</span><span class="chip">›</span><span class="chip">⋯</span></div>
+            <div class="notes">
+              <div class="nh"><b>Gryphons</b><span>Split 3 of 25</span></div>
+              <ul>
+                <li><b>Sizz</b> the left gryphon first</li>
+                <li>Whack until both are below half</li>
+                <li>Heal Erik at 60 HP, not lower</li>
+              </ul>
+              <div class="next">Next: Jarvis</div>
+            </div>
+          </div>
+        </div>
+        <div class="status"><span><span class="dot">●</span> Attached to LiveSplit</span><span>Split: Gryphons · left pages 4-6</span><span class="r">Numpad1 left · Numpad2 right</span></div>
+      </div>
+      <figcaption class="caption">At the Gryphons split, the left side has jumped to its pages and the right side shows that split's notes.</figcaption>
+    </figure>
+  </header>
+
+  <main class="read">
+    <section aria-labelledby="start">
+      <div class="seg"><h2 id="start">Get started</h2><span class="t">0:00.0</span></div>
+      <ol class="steps">
+        <li><div>Unzip the download anywhere and double-click <code>speedrunDocs.exe</code>. If Windows asks for the .NET 8 Desktop Runtime or the WebView2 Runtime, install them from microsoft.com.</div></li>
+        <li><div>Open a document on each side: <span class="menu">File › Change left document</span>. Paste a Google Docs, Google Sheets or ChatGPT share link and press <kbd>Enter</kbd>, or press <b>Import file</b>.</div></li>
+        <li><div>Press <kbd>Numpad1</kbd> or <kbd>Numpad2</kbd> to turn the left or right side to its next page, from any program, even during the game.</div></li>
+      </ol>
+      <p class="muted">Imported files: docx, doc, odt, rtf, pdf, xlsx, ods, txt, md, html, csv, json, epub, or Google's web-page zip. They're kept as read-only copies, so you can delete the download afterwards.</p>
+    </section>
+
+    <section aria-labelledby="follow">
+      <div class="seg"><h2 id="follow">Let your splits turn the pages</h2><span class="t">2:41</span></div>
+      <p>speedrunDocs listens to LiveSplit through a small component. It only writes a local file: nothing goes through a server or the internet. It works the same with manual splits and auto-splitters.</p>
+      <h3>One-time setup, for each layout you use</h3>
+      <ol class="steps">
+        <li><div>With LiveSplit closed, copy <code>SpeedrunDocs.dll</code> into LiveSplit's <code>Components</code> folder.</div></li>
+        <li><div>Right-click LiveSplit, choose <b>Edit Layout</b>, press <b>+</b>, then <b>Other</b>, then <b>SpeedrunDocs</b>, then <b>OK</b>.</div></li>
+        <li><div>Right-click LiveSplit and choose <b>Save Layout</b>.</div></li>
+      </ol>
+      <h3>Choose the pages for each split</h3>
+      <p>Open <span class="menu">Splits › Edit split pages</span> and type the pages for each side, like <code>1-3</code> or <code>4,5,9</code>. Flip to a page and press <b>Add current</b> to fill it in. An empty box keeps the pages from the split before, so one set can cover several bosses.</p>
+      <p>Tick <span class="menu">Splits › Attach to LiveSplit</span>. Each split now jumps to the first of its pages, and the page keys loop through only that split's pages. Untick it and the keys go through the whole document again.</p>
+      <p class="muted">Page numbers for splits work on imported files and Google Docs. Sheets and ChatGPT pages scroll one screen at a time.</p>
+    </section>
+
+    <section aria-labelledby="notes">
+      <div class="seg"><h2 id="notes">Split notes</h2><span class="t gold">20:02</span></div>
+      <p>No document? Type or paste notes straight into each split. A side set to split notes shows the current split's notes and changes the moment you split.</p>
+      <ol class="steps">
+        <li><div>Open <span class="menu">Splits › Edit split notes</span> and pick the left or right side at the top.</div></li>
+        <li><div>Every split from LiveSplit is listed. Choose one and paste its notes. <kbd>Alt</kbd>+<kbd>↓</kbd> moves to the next split, and a dot marks splits that already have notes.</div></li>
+        <li><div>Check the preview: it shows the notes at the size that side has with speedrunDocs maximised, and warns you when they don't fit on one screen.</div></li>
+        <li><div>On the side, open <b>⋯ › Show split notes here</b>.</div></li>
+      </ol>
+      <div class="example">
+        <div><div class="lab">You type</div><pre># Gryphons
+- **Sizz** the left gryphon first
+- Whack until both are below half
+- Heal Erik at 60 HP, not lower</pre></div>
+        <div class="out"><div class="lab">The side shows</div><b>Gryphons</b><ul><li><strong>Sizz</strong> the left gryphon first</li><li>Whack until both are below half</li><li>Heal Erik at 60 HP, not lower</li></ul></div>
+      </div>
+      <p class="muted">Lines stay as typed. <code>**bold**</code>, <code># headings</code> and <code>- lists</code> also work. Long notes scroll with the page key.</p>
+    </section>
+
+    <section aria-labelledby="keys">
+      <div class="seg"><h2 id="keys">Keybinds</h2><span class="t">28:45</span></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Key</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Numpad1</kbd></td><td>Next page on the left side</td></tr>
+            <tr><td><kbd>Numpad2</kbd></td><td>Next page on the right side</td></tr>
+            <tr><td><span class="muted">Not set</span></td><td>Previous page, left or right side. Set them in Keybinds › Edit keybinds.</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Save the open profile</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Save as a new profile</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Open a profile file</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Page keys work from any program, including the game. Num Lock must be on for numpad keys. A key another program already uses shows as <b>taken</b>; pick a different one. If LiveSplit uses the same key, for example <kbd>Numpad2</kbd> for Undo, only one of them gets it.</p>
+    </section>
+
+    <section aria-labelledby="profiles">
+      <div class="seg"><h2 id="profiles">Profiles</h2><span class="t">39:25</span></div>
+      <p>A profile keeps both documents, their names, which sides are shown, the split pages and the split notes. Switch between them with the Profile box in the top right.</p>
+      <div class="grid2">
+        <div class="card"><b>Saved where you choose</b><span class="muted">One folder per profile, with copies of any imported files. Set it in File › Profiles folder.</span></div>
+        <div class="card"><b>Safe from updates</b><span class="muted">Keep that folder outside the program's folder. Updating or deleting speedrunDocs never touches it.</span></div>
+        <div class="card"><b>Easy to share</b><span class="muted">Copy a profile folder to another PC and open its <code>profile.json</code> with Ctrl+O.</span></div>
+        <div class="card"><b>Undoable deletes</b><span class="muted">Deleting a profile sends its folder to the Recycle Bin.</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="window">
+      <div class="seg"><h2 id="window">The window</h2><span class="t">57:26</span></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Where</th><th>What's there</th></tr></thead>
+          <tbody>
+            <tr><td><span class="menu">File</span></td><td>Change documents, profiles, dark docs, Google sign-in</td></tr>
+            <tr><td><span class="menu">Keybinds</span></td><td>Your page keys, and the window to change them</td></tr>
+            <tr><td><span class="menu">Splits</span></td><td>Attach to LiveSplit, split pages, split notes</td></tr>
+            <tr><td><span class="menu">Windows</span></td><td>Show LiveSplit beside the documents, on the left or right; show or hide each side; LiveSplit's location</td></tr>
+            <tr><td><span class="menu">⋯ on a side</span></td><td>Change document, import file, split notes, reload, rename, hide this side</td></tr>
+            <tr><td>Status bar</td><td>Attached or not, the current split and its pages, your page keys</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">Drag the line between the documents to resize them. File › Dark docs darkens the documents themselves; pictures keep their colours.</p>
+    </section>
+
+    <section aria-labelledby="help">
+      <div class="seg"><h2 id="help">If something isn't working</h2><span class="t">1:11:20</span></div>
+      <div class="trouble">
+        <details open>
+          <summary>Splits don't move the pages</summary>
+          <ul>
+            <li>Check that Splits › Attach to LiveSplit is ticked.</li>
+            <li>Check that SpeedrunDocs is in the layout you're using, and that you saved the layout.</li>
+            <li>If Edit split pages shows no splits, LiveSplit isn't connected yet.</li>
+            <li>Help › Open error log shows any component errors.</li>
+          </ul>
+        </details>
+        <details>
+          <summary>A key shows "taken"</summary>
+          <ul><li>Another program already uses that key. Choose a different one in Keybinds › Edit keybinds.</li></ul>
+        </details>
+        <details>
+          <summary>A document side stays blank</summary>
+          <ul><li>The side says why it couldn't open the document. Use ⋯ › Reload, or import the file again.</li></ul>
+        </details>
+      </div>
+    </section>
+    <footer>
+      <span>Settings and sign-in: <code>%LOCALAPPDATA%\SideDocs</code></span>
+      <span>Profiles: the folder you chose</span>
+      <span>Version 1.1</span>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
