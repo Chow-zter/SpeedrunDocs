@@ -37,14 +37,14 @@ speedrunDocs listens to LiveSplit through a small component. It only writes a lo
 
 Open **Splits › Edit split pages** and type the pages for each side, like `1-3` or `4,5,9`. Flip to a page and press **Add current** to fill it in. An empty box keeps the pages from the split before, so one set can cover several bosses.
 
-Then tick **Splits › Attach to LiveSplit**. Each split jumps to the first of its pages, and the page keys loop through only that split's pages.
+Then turn on **Attached to LiveSplit** with the button in the top bar (or **Splits › Attach to LiveSplit**, or a key you set in Keybinds). Each split jumps to the first of its pages, and the page keys loop through only that split's pages.
 
 > [!NOTE]
 > Page numbers for splits work on imported files and Google Docs. Sheets and ChatGPT pages scroll one screen at a time.
 
 ## Split notes
 
-No document? Type or paste notes straight into each split. A side set to split notes shows the current split's notes and changes the moment you split.
+No document? Type or paste notes straight into each split. A side set to split notes shows the current split's notes and, while **Splits › Attach to LiveSplit** is ticked, changes the moment you split. Unticked, it stays put. Either way, the page key scrolls through the notes and then moves on to the next split's notes; while attached, your next split brings the side back to the split you're on.
 
 1. Open **Splits › Edit split notes** and pick the left or right side at the top.
 2. Every split from LiveSplit is listed. Choose one and paste its notes. <kbd>Alt</kbd>+<kbd>↓</kbd> moves to the next split, and a dot marks splits that already have notes.
@@ -90,7 +90,7 @@ Lines stay as typed. `**bold**`, `# headings` and `- lists` also work. Long note
 | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> | Save as a new profile |
 | <kbd>Ctrl</kbd>+<kbd>O</kbd> | Open a profile file |
 
-Page keys work from any program, including the game. Num Lock must be on for numpad keys. A key another program already uses shows as **taken**; pick a different one. If LiveSplit uses the same key, for example <kbd>Numpad2</kbd> for Undo, only one of them gets it.
+Page keys work from any program, including the game. Num Lock must be on for numpad keys. A key another program already uses shows as **taken**; pick a different one. While speedrunDocs has a key, LiveSplit doesn't get it, so a key that's also one of LiveSplit's keys shows in red, for example <kbd>Numpad2</kbd> (LiveSplit's Undo). Pick keys LiveSplit doesn't use.
 
 ## Profiles
 
