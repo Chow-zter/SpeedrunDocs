@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> speedrunDocs is 100% vibecoded: every part of it was written with AI. It works for me, but there may be bugs.
+
 <a href="https://chow-zter.github.io/SpeedrunDocs/"><img src="docs/banner.png" alt="speedrunDocs: your route notes next to LiveSplit, in one window. Two documents side by side, and your splits turn the pages for you." width="100%"></a>
 
 <p align="center">
@@ -15,7 +18,7 @@
 ## Get started
 
 1. Download `speedrunDocs-x.x.zip` from [Releases](https://github.com/Chow-zter/SpeedrunDocs/releases/latest), unzip it anywhere and double-click `speedrunDocs.exe`. If Windows asks for the [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) or the [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/), install them.
-2. Open a document on each side with **File › Change left document**. Paste a Google Docs, Google Sheets or ChatGPT share link and press <kbd>Enter</kbd>, or press **Import file**.
+2. Open a document on each side with **File › Change left document**. Paste a Google Docs, Google Sheets or ChatGPT share link and press <kbd>Enter</kbd>, or press **Import file**. Google documents must be shared as **Anyone with the link**; there's no Google sign-in.
 3. Press <kbd>Numpad1</kbd> or <kbd>Numpad2</kbd> to turn the left or right side to its next page, from any program, even during the game.
 
 Imported files can be docx, doc, odt, rtf, pdf, xlsx, ods, txt, md, html, csv, json, epub, or Google's web-page zip. They're kept as read-only copies, so you can delete the download afterwards.
@@ -74,6 +77,8 @@ No document? Type or paste notes straight into each split. A side set to split n
 
 Lines stay as typed. `**bold**`, `# headings` and `- lists` also work. Long notes scroll with the page key.
 
+**Pictures:** take a screenshot with <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> and press <kbd>Ctrl</kbd>+<kbd>V</kbd> in the notes box, press **Add picture**, or drag picture files onto the box (png, jpg, gif, bmp, webp). Pictures fit the width of the side and are saved with your profiles.
+
 ## Keybinds
 
 | Key | What it does |
@@ -100,7 +105,7 @@ A profile keeps both documents, their names, which sides are shown, the split pa
 
 | Where | What's there |
 | --- | --- |
-| **File** | Change documents, profiles, dark docs, Google sign-in |
+| **File** | Change documents, profiles, dark docs |
 | **Keybinds** | Your page keys, and the window to change them |
 | **Splits** | Attach to LiveSplit, split pages, split notes |
 | **Windows** | Show LiveSplit beside the documents, on the left or right; show or hide each side; LiveSplit's location |
@@ -137,4 +142,4 @@ The side says why it couldn't open the document. Use **⋯ › Reload**, or impo
 
 ---
 
-<sub>Settings and sign-in are stored in <code>%LOCALAPPDATA%\SideDocs</code>, and profiles in the folder you choose.</sub>
+<sub>Settings are stored in <code>%LOCALAPPDATA%\SideDocs</code>, and profiles in the folder you choose.</sub>

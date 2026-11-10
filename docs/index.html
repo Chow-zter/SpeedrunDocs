@@ -45,6 +45,9 @@ h1 { font: 700 clamp(56px, 11vw, 112px)/.9 var(--display); letter-spacing: -.01e
 h1 .tick { color: var(--accent); }
 .lede { font-size: clamp(18px, 2.2vw, 21px); max-width: 640px; color: var(--fg); margin: 0; text-wrap: pretty; }
 .lede span { color: var(--muted); }
+.vibe { display: flex; gap: 10px; align-items: baseline; max-width: 640px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: 15px; color: var(--muted); }
+.vibe b { color: var(--gold); font: 600 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.vibe a { color: var(--accent); }
 .facts { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 13px var(--mono); color: var(--muted); }
 .facts b { color: var(--fg); font-weight: 600; }
 
@@ -152,6 +155,7 @@ footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);
 
 <div class="wrap">
   <header class="hero">
+    <p class="vibe"><b>Vibecoded</b><span>speedrunDocs is 100% vibecoded: every part of it was written with AI. It works for me, but there may be bugs.</span></p>
     <div>
       <div class="eyebrow">For LiveSplit runners</div>
       <h1>speedrun<span class="tick">Docs</span></h1>
@@ -213,7 +217,7 @@ footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);
       <div class="seg"><h2 id="start">Get started</h2><span class="t">0:00.0</span></div>
       <ol class="steps">
         <li><div>Unzip the download anywhere and double-click <code>speedrunDocs.exe</code>. If Windows asks for the .NET 8 Desktop Runtime or the WebView2 Runtime, install them from microsoft.com.</div></li>
-        <li><div>Open a document on each side: <span class="menu">File › Change left document</span>. Paste a Google Docs, Google Sheets or ChatGPT share link and press <kbd>Enter</kbd>, or press <b>Import file</b>.</div></li>
+        <li><div>Open a document on each side: <span class="menu">File › Change left document</span>. Paste a Google Docs, Google Sheets or ChatGPT share link and press <kbd>Enter</kbd>, or press <b>Import file</b>. Google documents must be shared as <b>Anyone with the link</b>; there's no Google sign-in.</div></li>
         <li><div>Press <kbd>Numpad1</kbd> or <kbd>Numpad2</kbd> to turn the left or right side to its next page, from any program, even during the game.</div></li>
       </ol>
       <p class="muted">Imported files: docx, doc, odt, rtf, pdf, xlsx, ods, txt, md, html, csv, json, epub, or Google's web-page zip. They're kept as read-only copies, so you can delete the download afterwards.</p>
@@ -251,6 +255,8 @@ footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);
         <div class="out"><div class="lab">The side shows</div><b>Gryphons</b><ul><li><strong>Sizz</strong> the left gryphon first</li><li>Whack until both are below half</li><li>Heal Erik at 60 HP, not lower</li></ul></div>
       </div>
       <p class="muted">Lines stay as typed. <code>**bold**</code>, <code># headings</code> and <code>- lists</code> also work. Long notes scroll with the page key.</p>
+      <h3>Pictures</h3>
+      <p>Take a screenshot with <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> and press <kbd>Ctrl</kbd>+<kbd>V</kbd> in the notes box. You can also press <b>Add picture</b>, or drag picture files onto the box: png, jpg, gif, bmp or webp. Each picture goes on its own line as <code>![screenshot](pictures/…)</code>, fits the width of the side, and is saved with your profiles.</p>
     </section>
 
     <section aria-labelledby="keys">
@@ -288,7 +294,7 @@ footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);
         <table>
           <thead><tr><th>Where</th><th>What's there</th></tr></thead>
           <tbody>
-            <tr><td><span class="menu">File</span></td><td>Change documents, profiles, dark docs, Google sign-in</td></tr>
+            <tr><td><span class="menu">File</span></td><td>Change documents, profiles, dark docs</td></tr>
             <tr><td><span class="menu">Keybinds</span></td><td>Your page keys, and the window to change them</td></tr>
             <tr><td><span class="menu">Splits</span></td><td>Attach to LiveSplit, split pages, split notes</td></tr>
             <tr><td><span class="menu">Windows</span></td><td>Show LiveSplit beside the documents, on the left or right; show or hide each side; LiveSplit's location</td></tr>
@@ -323,7 +329,7 @@ footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);
       </div>
     </section>
     <footer>
-      <span>Settings and sign-in: <code>%LOCALAPPDATA%\SideDocs</code></span>
+      <span>Settings: <code>%LOCALAPPDATA%\SideDocs</code></span>
       <span>Profiles: the folder you chose</span>
       <span>Version 1.1</span>
     </footer>
